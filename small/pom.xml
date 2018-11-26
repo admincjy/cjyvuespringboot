@@ -102,6 +102,10 @@
 		      <artifactId>pagehelper</artifactId>
 		      <version>4.1.6</version>
 		 </dependency>
+		 <dependency>
+			    <groupId>org.freemarker</groupId>
+			    <artifactId>freemarker</artifactId>
+		 </dependency>
     </dependencies>
     <build>
         <plugins>
