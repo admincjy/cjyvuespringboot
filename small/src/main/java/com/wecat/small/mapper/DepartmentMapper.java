@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.wecat.small.entity.Department;
+import com.wecat.small.entity.NationEntity;
 
 public interface DepartmentMapper {
     int deleteByPrimaryKey(Integer id);
@@ -24,4 +25,6 @@ public interface DepartmentMapper {
     void addDep(@Param("dep") Department department);
     
     void deleteDep(@Param("dep") Department department);
+    
+    List<Department> findAll();
 }

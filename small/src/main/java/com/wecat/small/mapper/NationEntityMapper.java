@@ -1,5 +1,7 @@
 package com.wecat.small.mapper;
 
+import java.util.List;
+
 import com.wecat.small.entity.NationEntity;
 
 public interface NationEntityMapper {
@@ -14,4 +16,6 @@ public interface NationEntityMapper {
     int updateByPrimaryKeySelective(NationEntity record);
 
     int updateByPrimaryKey(NationEntity record);
+    
+    List<NationEntity> findAll();
 }

@@ -1,5 +1,7 @@
 package com.wecat.small.mapper;
 
+import java.util.List;
+
 import com.wecat.small.entity.PoliticsstatusEntity;
 
 public interface PoliticsstatusEntityMapper {
@@ -14,4 +16,6 @@ public interface PoliticsstatusEntityMapper {
     int updateByPrimaryKeySelective(PoliticsstatusEntity record);
 
     int updateByPrimaryKey(PoliticsstatusEntity record);
+    
+    List<PoliticsstatusEntity> findAll();
 }

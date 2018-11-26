@@ -6,30 +6,30 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="gender" jdbcType="CHAR" property="gender" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="idCard" jdbcType="CHAR" property="idcard" />
+    <result column="idCard" jdbcType="CHAR" property="idCard" />
     <result column="wedlock" jdbcType="CHAR" property="wedlock" />
-    <result column="nationId" jdbcType="INTEGER" property="nationid" />
-    <result column="nativePlace" jdbcType="VARCHAR" property="nativeplace" />
-    <result column="politicId" jdbcType="INTEGER" property="politicid" />
+    <result column="nationId" jdbcType="INTEGER" property="nationId" />
+    <result column="nativePlace" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="politicId" jdbcType="INTEGER" property="politicId" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="departmentId" jdbcType="INTEGER" property="departmentid" />
-    <result column="jobLevelId" jdbcType="INTEGER" property="joblevelid" />
-    <result column="posId" jdbcType="INTEGER" property="posid" />
-    <result column="engageForm" jdbcType="VARCHAR" property="engageform" />
-    <result column="tiptopDegree" jdbcType="CHAR" property="tiptopdegree" />
+    <result column="departmentId" jdbcType="INTEGER" property="departmentId" />
+    <result column="jobLevelId" jdbcType="INTEGER" property="jobLevelId" />
+    <result column="posId" jdbcType="INTEGER" property="posId" />
+    <result column="engageForm" jdbcType="VARCHAR" property="engageForm" />
+    <result column="tiptopDegree" jdbcType="CHAR" property="tiptopDegree" />
     <result column="specialty" jdbcType="VARCHAR" property="specialty" />
     <result column="school" jdbcType="VARCHAR" property="school" />
-    <result column="beginDate" jdbcType="DATE" property="begindate" />
-    <result column="workState" jdbcType="CHAR" property="workstate" />
-    <result column="workID" jdbcType="CHAR" property="workid" />
-    <result column="contractTerm" jdbcType="DOUBLE" property="contractterm" />
-    <result column="conversionTime" jdbcType="DATE" property="conversiontime" />
-    <result column="notWorkDate" jdbcType="DATE" property="notworkdate" />
-    <result column="beginContract" jdbcType="DATE" property="begincontract" />
-    <result column="endContract" jdbcType="DATE" property="endcontract" />
-    <result column="workAge" jdbcType="INTEGER" property="workage" />
+    <result column="beginDate" jdbcType="DATE" property="beginDate" />
+    <result column="workState" jdbcType="CHAR" property="workState" />
+    <result column="workID" jdbcType="CHAR" property="workID" />
+    <result column="contractTerm" jdbcType="DOUBLE" property="contractTerm" />
+    <result column="conversionTime" jdbcType="DATE" property="conversionTime" />
+    <result column="notWorkDate" jdbcType="DATE" property="notWorkDate" />
+    <result column="beginContract" jdbcType="DATE" property="beginContract" />
+    <result column="endContract" jdbcType="DATE" property="endContract" />
+    <result column="workAge" jdbcType="INTEGER" property="workAge" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, 
@@ -84,19 +84,19 @@
       <if test="birthday != null">
         birthday,
       </if>
-      <if test="idcard != null">
+      <if test="idCard != null">
         idCard,
       </if>
       <if test="wedlock != null">
         wedlock,
       </if>
-      <if test="nationid != null">
+      <if test="nationId != null">
         nationId,
       </if>
-      <if test="nativeplace != null">
+      <if test="nativePlace != null">
         nativePlace,
       </if>
-      <if test="politicid != null">
+      <if test="politicId != null">
         politicId,
       </if>
       <if test="email != null">
@@ -108,19 +108,19 @@
       <if test="address != null">
         address,
       </if>
-      <if test="departmentid != null">
+      <if test="departmentId != null">
         departmentId,
       </if>
-      <if test="joblevelid != null">
+      <if test="jobLevelId != null">
         jobLevelId,
       </if>
-      <if test="posid != null">
+      <if test="posId != null">
         posId,
       </if>
-      <if test="engageform != null">
+      <if test="engageForm != null">
         engageForm,
       </if>
-      <if test="tiptopdegree != null">
+      <if test="tiptopDegree != null">
         tiptopDegree,
       </if>
       <if test="specialty != null">
@@ -129,31 +129,31 @@
       <if test="school != null">
         school,
       </if>
-      <if test="begindate != null">
+      <if test="beginDate != null">
         beginDate,
       </if>
-      <if test="workstate != null">
+      <if test="workState != null">
         workState,
       </if>
-      <if test="workid != null">
+      <if test="workID != null">
         workID,
       </if>
-      <if test="contractterm != null">
+      <if test="contractTerm != null">
         contractTerm,
       </if>
-      <if test="conversiontime != null">
+      <if test="conversionTime != null">
         conversionTime,
       </if>
-      <if test="notworkdate != null">
+      <if test="notWorkDate != null">
         notWorkDate,
       </if>
-      <if test="begincontract != null">
+      <if test="beginContract != null">
         beginContract,
       </if>
-      <if test="endcontract != null">
+      <if test="endContract != null">
         endContract,
       </if>
-      <if test="workage != null">
+      <if test="workAge != null">
         workAge,
       </if>
     </trim>
@@ -170,20 +170,20 @@
       <if test="birthday != null">
         #{birthday,jdbcType=DATE},
       </if>
-      <if test="idcard != null">
-        #{idcard,jdbcType=CHAR},
+      <if test="idCard != null">
+        #{idCard,jdbcType=CHAR},
       </if>
       <if test="wedlock != null">
         #{wedlock,jdbcType=CHAR},
       </if>
-      <if test="nationid != null">
-        #{nationid,jdbcType=INTEGER},
+      <if test="nationId != null">
+        #{nationId,jdbcType=INTEGER},
       </if>
-      <if test="nativeplace != null">
-        #{nativeplace,jdbcType=VARCHAR},
+      <if test="nativePlace != null">
+        #{nativePlace,jdbcType=VARCHAR},
       </if>
-      <if test="politicid != null">
-        #{politicid,jdbcType=INTEGER},
+      <if test="politicId != null">
+        #{politicId,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -194,20 +194,20 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="departmentid != null">
-        #{departmentid,jdbcType=INTEGER},
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
       </if>
-      <if test="joblevelid != null">
-        #{joblevelid,jdbcType=INTEGER},
+      <if test="jobLevelId != null">
+        #{jobLevelId,jdbcType=INTEGER},
       </if>
-      <if test="posid != null">
-        #{posid,jdbcType=INTEGER},
+      <if test="posId != null">
+        #{posId,jdbcType=INTEGER},
       </if>
-      <if test="engageform != null">
-        #{engageform,jdbcType=VARCHAR},
+      <if test="engageForm != null">
+        #{engageForm,jdbcType=VARCHAR},
       </if>
-      <if test="tiptopdegree != null">
-        #{tiptopdegree,jdbcType=CHAR},
+      <if test="tiptopDegree != null">
+        #{tiptopDegree,jdbcType=CHAR},
       </if>
       <if test="specialty != null">
         #{specialty,jdbcType=VARCHAR},
@@ -215,32 +215,32 @@
       <if test="school != null">
         #{school,jdbcType=VARCHAR},
       </if>
-      <if test="begindate != null">
-        #{begindate,jdbcType=DATE},
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=DATE},
       </if>
-      <if test="workstate != null">
-        #{workstate,jdbcType=CHAR},
+      <if test="workState != null">
+        #{workState,jdbcType=CHAR},
       </if>
-      <if test="workid != null">
-        #{workid,jdbcType=CHAR},
+      <if test="workID != null">
+        #{workID,jdbcType=CHAR},
       </if>
-      <if test="contractterm != null">
-        #{contractterm,jdbcType=DOUBLE},
+      <if test="contractTerm != null">
+        #{contractTerm,jdbcType=DOUBLE},
       </if>
-      <if test="conversiontime != null">
-        #{conversiontime,jdbcType=DATE},
+      <if test="conversionTime != null">
+        #{conversionTime,jdbcType=DATE},
       </if>
-      <if test="notworkdate != null">
-        #{notworkdate,jdbcType=DATE},
+      <if test="notWorkDate != null">
+        #{notWorkDate,jdbcType=DATE},
       </if>
-      <if test="begincontract != null">
-        #{begincontract,jdbcType=DATE},
+      <if test="beginContract != null">
+        #{beginContract,jdbcType=DATE},
       </if>
-      <if test="endcontract != null">
-        #{endcontract,jdbcType=DATE},
+      <if test="endContract != null">
+        #{endContract,jdbcType=DATE},
       </if>
-      <if test="workage != null">
-        #{workage,jdbcType=INTEGER},
+      <if test="workAge != null">
+        #{workAge,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -256,20 +256,20 @@
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="idcard != null">
-        idCard = #{idcard,jdbcType=CHAR},
+      <if test="idCard != null">
+        idCard = #{idCard,jdbcType=CHAR},
       </if>
       <if test="wedlock != null">
         wedlock = #{wedlock,jdbcType=CHAR},
       </if>
-      <if test="nationid != null">
-        nationId = #{nationid,jdbcType=INTEGER},
+      <if test="nationId != null">
+        nationId = #{nationId,jdbcType=INTEGER},
       </if>
       <if test="nativeplace != null">
         nativePlace = #{nativeplace,jdbcType=VARCHAR},
       </if>
-      <if test="politicid != null">
-        politicId = #{politicid,jdbcType=INTEGER},
+      <if test="politicId != null">
+        politicId = #{politicId,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -280,14 +280,14 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="departmentid != null">
-        departmentId = #{departmentid,jdbcType=INTEGER},
+      <if test="departmentId != null">
+        departmentId = #{departmentId,jdbcType=INTEGER},
       </if>
-      <if test="joblevelid != null">
-        jobLevelId = #{joblevelid,jdbcType=INTEGER},
+      <if test="jobLevelId != null">
+        jobLevelId = #{jobLevelId,jdbcType=INTEGER},
       </if>
-      <if test="posid != null">
-        posId = #{posid,jdbcType=INTEGER},
+      <if test="posId != null">
+        posId = #{posId,jdbcType=INTEGER},
       </if>
       <if test="engageform != null">
         engageForm = #{engageform,jdbcType=VARCHAR},
@@ -307,8 +307,8 @@
       <if test="workstate != null">
         workState = #{workstate,jdbcType=CHAR},
       </if>
-      <if test="workid != null">
-        workID = #{workid,jdbcType=CHAR},
+      <if test="workID != null">
+        workID = #{workID,jdbcType=CHAR},
       </if>
       <if test="contractterm != null">
         contractTerm = #{contractterm,jdbcType=DOUBLE},
@@ -393,5 +393,12 @@
 	      </if>
 	  </if>
     </where>
+  </select>
+  <select id="findRecentlyOne"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    ORDER BY id DESC
+    LIMIT 1
   </select>
 </mapper>

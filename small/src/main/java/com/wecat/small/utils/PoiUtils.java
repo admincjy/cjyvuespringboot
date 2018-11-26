@@ -127,25 +127,25 @@ public class PoiUtils {
 					                	employeeEntity.setName(cellValue);
 					                    break;
 					                case 2:
-					                	employeeEntity.setWorkid(cellValue);
+					                	employeeEntity.setWorkID(cellValue);
 					                    break;
 					                case 3:
 					                	employeeEntity.setGender(cellValue);
 					                    break;
 					                case 5:
-					                	employeeEntity.setIdcard(cellValue);
+					                	employeeEntity.setIdCard(cellValue);
 					                    break;
 					                case 6:
 					                	employeeEntity.setWedlock(cellValue);
 					                    break;
 					                case 7:
-					                    employeeEntity.setNationid(5);
+					                    employeeEntity.setNationId(5);
 					                    break;
 					                case 8:
-					                	employeeEntity.setNativeplace(cellValue);
+					                	employeeEntity.setNativePlace(cellValue);
 					                    break;
 					                case 9:
-					                    employeeEntity.setPoliticid(5);
+					                    employeeEntity.setPoliticId(5);
 					                    break;
 					                case 10:
 					                	employeeEntity.setPhone(cellValue);
@@ -154,19 +154,19 @@ public class PoiUtils {
 					                	employeeEntity.setAddress(cellValue);
 					                    break;
 					                case 12:
-					                    employeeEntity.setDepartmentid(5);
+					                    employeeEntity.setDepartmentId(5);
 					                    break;
 					                case 13:
-					                    employeeEntity.setJoblevelid(5);
+					                    employeeEntity.setJobLevelId(5);
 					                    break;
 					                case 14:
-					                	employeeEntity.setPosid(5);
+					                	employeeEntity.setPosId(5);
 					                    break;
 					                case 15:
-					                	employeeEntity.setEngageform(cellValue);
+					                	employeeEntity.setEngageForm(cellValue);
 					                    break;
 					                case 16:
-					                	employeeEntity.setTiptopdegree(cellValue);
+					                	employeeEntity.setTiptopDegree(cellValue);
 					                    break;
 					                case 17:
 					                	employeeEntity.setSpecialty(cellValue);
@@ -176,7 +176,7 @@ public class PoiUtils {
 					                    break;
 					                case 19:
 					                case 20:
-					                	employeeEntity.setWorkstate(cellValue);
+					                	employeeEntity.setWorkState(cellValue);
 					                    break;
 					                case 21:
 					                	employeeEntity.setEmail(cellValue);
@@ -190,16 +190,16 @@ public class PoiUtils {
 				                	employeeEntity.setBirthday(cell.getDateCellValue());
 				                    break;
 				                case 19:
-				                	employeeEntity.setBegindate(cell.getDateCellValue());
+				                	employeeEntity.setBeginDate(cell.getDateCellValue());
 				                    break;
 				                case 22:
-				                	employeeEntity.setContractterm(cell.getNumericCellValue());
+				                	employeeEntity.setContractTerm(cell.getNumericCellValue());
 				                    break;
 				                case 23:
-				                	employeeEntity.setBegincontract(cell.getDateCellValue());
+				                	employeeEntity.setBeginContract(cell.getDateCellValue());
 				                    break;
 				                case 24:
-				                	employeeEntity.setEndcontract(cell.getDateCellValue());
+				                	employeeEntity.setEndContract(cell.getDateCellValue());
 				                    break;
 				            }
 				        }

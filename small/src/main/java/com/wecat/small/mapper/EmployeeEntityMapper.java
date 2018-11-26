@@ -21,4 +21,6 @@ public interface EmployeeEntityMapper {
     int updateByPrimaryKey(EmployeeEntity record);
     
     List<EmployeeEntity> selectAll(PageInfoSmall<EmployeeEntity> pageInfo);
+    
+    EmployeeEntity findRecentlyOne();
 }

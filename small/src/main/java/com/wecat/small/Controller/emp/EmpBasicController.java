@@ -22,6 +22,7 @@ import com.wecat.small.entity.EmployeeEntity;
 import com.wecat.small.entity.EmployeeecEntity;
 import com.wecat.small.entity.PageInfoSmall;
 import com.wecat.small.mapper.EmployeeecEntityMapper;
+import com.wecat.small.utils.BaseRespMsg;
 
 /**
  * @author Administrator
@@ -42,6 +43,41 @@ public class EmpBasicController {
 	public Map<String, Object> emp(@RequestBody PageInfoSmall<EmployeeEntity> pageInfo){
 		Map<String, Object> map=empBasicService.selectAll(pageInfo);
 		return map;
+	}
+	
+	
+	/*
+	 * 查询员工信息中下拉列表的基本信息
+	 */
+	@RequestMapping(value = "/basicdata")
+	public Map<String, Object> basicdata(){
+		Map<String, Object> map=empBasicService.selectBasicdata();
+		return map;
+	}
+	
+	
+	/*
+	 * 编辑员工工号
+	 */
+	@RequestMapping(value = "/maxWorkID")
+	public String maxWorkID(){
+		String workID=empBasicService.findRecentlyOne().getWorkID();
+		workID=String.format("%08d", Integer.parseInt(workID)+1);
+		return workID;
+	}
+	
+	/*
+	 *  新添加员工信息
+	 */
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public BaseRespMsg add(EmployeeEntity employeeEntity){ 
+		employeeEntity.setWorkState("在职");
+		employeeEntity.setWorkAge(5);
+        int i=empBasicService.insertSelective(employeeEntity);
+        if (i==1) {
+			return new BaseRespMsg(0,"添加成功");
+		}
+        return BaseRespMsg.error("添加失败");
 	}
 	
 }
