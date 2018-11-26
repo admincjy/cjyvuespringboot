@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wecat.small.mapper.MenuEntityMapper">
+  <resultMap id="BaseResultMap" type="com.wecat.small.entity.MenuEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="iconCls" jdbcType="VARCHAR" property="iconcls" />
+    <result column="keepAlive" jdbcType="BIT" property="keepalive" />
+    <result column="requireAuth" jdbcType="BIT" property="requireauth" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+    <association property="meta" javaType="com.wecat.small.entity.MenuMeta">
+        <result column="keepAlive" property="keepAlive"/>
+        <result column="requireAuth" property="requireAuth"/>
+    </association>
+    <collection property="roles" ofType="com.wecat.small.entity.Role">
+        <id column="rid" property="id"/>
+        <result column="rname" property="name"/>
+        <result column="rnamezh" property="nameZh"/>
+    </collection>
+    <collection property="children" ofType="com.wecat.small.entity.MenuEntity">
+        <id column="id2" property="id"/>
+        <result column="path2" property="path" jdbcType="VARCHAR"/>
+        <result column="component2" property="component" jdbcType="VARCHAR"/>
+        <result column="name2" property="name" jdbcType="VARCHAR"/>
+        <result column="iconCls2" property="iconCls" jdbcType="VARCHAR"/>
+        <association property="meta" javaType="com.wecat.small.entity.MenuMeta">
+            <result column="keepAlive2" property="keepAlive"/>
+            <result column="requireAuth2" property="requireAuth"/>
+        </association>
+        <collection property="children" ofType="com.wecat.small.entity.MenuEntity">
+            <id column="id3" property="id"/>
+            <result column="name3" property="name" jdbcType="VARCHAR"/>
+        </collection>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, path, component, name, iconCls, keepAlive, requireAuth, parentId, enabled
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wecat.small.entity.MenuEntity">
+    insert into menu (id, url, path, 
+      component, name, iconCls, 
+      keepAlive, requireAuth, parentId, 
+      enabled)
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{component,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{iconcls,jdbcType=VARCHAR}, 
+      #{keepalive,jdbcType=BIT}, #{requireauth,jdbcType=BIT}, #{parentid,jdbcType=INTEGER}, 
+      #{enabled,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wecat.small.entity.MenuEntity">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="component != null">
+        component,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="iconcls != null">
+        iconCls,
+      </if>
+      <if test="keepalive != null">
+        keepAlive,
+      </if>
+      <if test="requireauth != null">
+        requireAuth,
+      </if>
+      <if test="parentid != null">
+        parentId,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="iconcls != null">
+        #{iconcls,jdbcType=VARCHAR},
+      </if>
+      <if test="keepalive != null">
+        #{keepalive,jdbcType=BIT},
+      </if>
+      <if test="requireauth != null">
+        #{requireauth,jdbcType=BIT},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wecat.small.entity.MenuEntity">
+    update menu
+    <set>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="iconcls != null">
+        iconCls = #{iconcls,jdbcType=VARCHAR},
+      </if>
+      <if test="keepalive != null">
+        keepAlive = #{keepalive,jdbcType=BIT},
+      </if>
+      <if test="requireauth != null">
+        requireAuth = #{requireauth,jdbcType=BIT},
+      </if>
+      <if test="parentid != null">
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wecat.small.entity.MenuEntity">
+    update menu
+    set url = #{url,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      iconCls = #{iconcls,jdbcType=VARCHAR},
+      keepAlive = #{keepalive,jdbcType=BIT},
+      requireAuth = #{requireauth,jdbcType=BIT},
+      parentId = #{parentid,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getAllMenu"  resultMap="BaseResultMap">
+     select m.*,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnamezh from menu m left join menu_role mr on m.`id`=mr.`mid` left join role r on mr.`rid`=r.`id` WHERE m.`enabled`=true order by m.`id` desc
+  </select>
+  
+   <select id="getMenusByHrId" parameterType="Long" resultMap="BaseResultMap">
+        select m1.`id`,m1.`path`,m1.`component`,m1.`iconCls`,m1.`name`,m1.`requireAuth`,m2.`component` as component2,m2.`iconCls` as iconCls2,m2.`keepAlive` as keepAlive2,m2.`name` as name2,m2.`path` as path2,m2.`requireAuth` as requireAuth2 from menu m1,menu m2 where m1.`id`=m2.`parentId` and m1.`id`!=1 and m2.`id` in(select mr.`mid` from hr_role h_r,menu_role mr where h_r.`rid`=mr.`rid` and h_r.`hrid`=#{hrId}) and m2.`enabled`=true order by m1.`id`,m2.`id`
+    </select>
+</mapper>
