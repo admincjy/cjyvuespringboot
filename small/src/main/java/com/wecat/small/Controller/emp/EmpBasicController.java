@@ -3,25 +3,19 @@
  */
 package com.wecat.small.Controller.emp;
 
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+
 import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.entity.EmployeeEntity;
-import com.wecat.small.entity.EmployeeecEntity;
 import com.wecat.small.entity.PageInfoSmall;
-import com.wecat.small.mapper.EmployeeecEntityMapper;
 import com.wecat.small.service.EmpBasicService;
 
 /**
