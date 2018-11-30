@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wecat.small.mapper.SysmsgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wecat.small.entity.Sysmsg">
+        <id column="id"  property="id" />
+        <result column="mid"  property="mid" />
+        <result column="type"  property="type" />
+        <result column="hrid"  property="hrid" />
+        <result column="state"  property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mid, type, hrid, state
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.wecat.small.entity.Sysmsg" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sysmsg
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">id,</if>
+          <if test="mid!=null">mid,</if>
+          <if test="type!=null">type,</if>
+          <if test="hrid!=null">hrid,</if>
+          <if test="state!=null">state</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="mid!=null">#{mid},</if>
+          <if test="type!=null">#{type},</if>
+          <if test="hrid!=null">#{hrid},</if>
+          <if test="state!=null">#{state}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			INSERT INTO sysmsg
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">id,</if>
+	          <if test="item.mid!=null">mid,</if>
+	          <if test="item.type!=null">type,</if>
+	          <if test="item.hrid!=null">hrid,</if>
+	          <if test="item.state!=null">state</if>
+	        </trim>
+		    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.mid!=null">#{item.mid},</if>
+	          <if test="item.type!=null">#{item.type},</if>
+	          <if test="item.hrid!=null">#{item.hrid},</if>
+	          <if test="item.state!=null">#{item.state}</if>
+		    </trim>
+		</foreach>
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.wecat.small.entity.Sysmsg">
+		UPDATE sysmsg
+		<set>
+          <if test="mid!=null">mid = #{mid},</if>
+          <if test="type!=null">type = #{type},</if>
+          <if test="hrid!=null">hrid = #{hrid},</if>
+          <if test="state!=null">state = #{state}</if>
+		</set>
+		<where> 
+        id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE sysmsg
+			<set>
+	          <if test="item.mid!=null">mid = #{item.mid},</if>
+	          <if test="item.type!=null">type = #{item.type},</if>
+	          <if test="item.hrid!=null">hrid = #{item.hrid},</if>
+	          <if test="item.state!=null">state = #{item.state}</if>
+			</set>
+			<where> 
+	          id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM sysmsg
+		WHERE 
+	      id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM sysmsg	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM sysmsg 
+		WHERE 
+	      id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM sysmsg WHERE 
+	      id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.wecat.small.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from sysmsg
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.mid!=null"> and mid = #{queryData.mid}</if>
+			       <if test="queryData.type!=null"> and type = #{queryData.type}</if>
+			       <if test="queryData.hrid!=null"> and hrid = #{queryData.hrid}</if>
+			       <if test="queryData.state!=null"> and state = #{queryData.state}</if>
+			   </if>
+	    </where>
+	  </select>
+    
+</mapper>

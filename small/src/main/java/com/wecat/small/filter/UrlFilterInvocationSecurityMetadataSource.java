@@ -15,9 +15,9 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
-import com.wecat.small.Service.MenuService;
 import com.wecat.small.entity.MenuEntity;
 import com.wecat.small.entity.Role;
+import com.wecat.small.service.MenuService;
 
 /**
  * @author Administrator

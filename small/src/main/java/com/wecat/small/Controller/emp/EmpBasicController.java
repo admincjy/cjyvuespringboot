@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wecat.small.Service.EmpBasicService;
+import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.entity.EmployeeEntity;
 import com.wecat.small.entity.EmployeeecEntity;
 import com.wecat.small.entity.PageInfoSmall;
 import com.wecat.small.mapper.EmployeeecEntityMapper;
-import com.wecat.small.utils.BaseRespMsg;
+import com.wecat.small.service.EmpBasicService;
 
 /**
  * @author Administrator

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.wecat.small.Service;
+package com.wecat.small.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.entity.Hr;
 import com.wecat.small.mapper.HrMapper;
-import com.wecat.small.utils.BaseRespMsg;
 
 /**
  * @author Administrator

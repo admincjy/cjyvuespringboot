@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.wecat.small.Service;
+package com.wecat.small.service;
 
 import java.util.List;
 

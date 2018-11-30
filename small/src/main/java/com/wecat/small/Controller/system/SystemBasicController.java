@@ -3,8 +3,7 @@
  */
 package com.wecat.small.Controller.system;
 
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wecat.small.Service.DepartmentService;
-import com.wecat.small.Service.JoblevelsService;
-import com.wecat.small.Service.PositionsService;
+import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.entity.Department;
 import com.wecat.small.entity.JoblevelEntity;
 import com.wecat.small.entity.PositionEntity;
-import com.wecat.small.utils.BaseRespMsg;
+import com.wecat.small.service.DepartmentService;
+import com.wecat.small.service.JoblevelsService;
+import com.wecat.small.service.PositionsService;
 
 /**
  * @author Administrator

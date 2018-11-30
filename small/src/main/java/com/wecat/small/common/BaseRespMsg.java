@@ -1,14 +1,14 @@
 /**
  * 
  */
-package com.wecat.small.utils;
+package com.wecat.small.common;
 
 import java.io.Serializable;
 
 
 
 /**
- * @author Administrator
+ * @author cjy
  *
  */
 public class BaseRespMsg implements Serializable{
