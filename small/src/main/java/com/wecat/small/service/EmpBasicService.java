@@ -50,7 +50,7 @@ public class EmpBasicService {
 		PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
 		List<EmployeeEntity> eList=employeeEntityMapper.selectAll(pageInfo);
 		PageInfo<EmployeeEntity> pageDataList = new PageInfo<>(eList);
-		map.put("emps", eList);
+		map.put("emps", pageDataList.getList());
 		map.put("count", pageDataList.getTotal());
     	return map;
     }

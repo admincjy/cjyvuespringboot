@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.wecat.small.common.PageInfoReqVo;
 import com.wecat.small.entity.Hr;
 import com.wecat.small.entity.Role;
 
@@ -30,4 +31,20 @@ public interface HrMapper {
     int deleteHr(Long hrId);
 
     List<Hr> getAllHr(@Param("currentId") Long currentId);
+    
+    
+    List<Hr> selectList();
+    
+    Hr selectById(Long id);
+    
+    int insert(Hr entity);
+    
+    int update(Hr entity);
+    
+    int deleteById(Long id);
+    
+    int deleteBatchIds(List<Long> ids);
+    
+    List<Hr> selectByPage(PageInfoReqVo<Hr> pageInfoReqVo);
+
 }

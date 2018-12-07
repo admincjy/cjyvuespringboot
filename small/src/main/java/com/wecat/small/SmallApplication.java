@@ -9,7 +9,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-//@EnableScheduling  定时任务
+//定时任务
+@EnableScheduling  
 @EnableCaching
 @MapperScan("com.wecat.small")
 public class SmallApplication {

@@ -1,17 +1,23 @@
 package com.wecat.small.mapper;
 
+import java.util.List;
+
+import com.wecat.small.common.PageInfoReqVo;
 import com.wecat.small.entity.Role;
 
 public interface RoleMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Role record);
-
-    int insertSelective(Role record);
-
-    Role selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Role record);
-
-    int updateByPrimaryKey(Role record);
+	
+    List<Role> selectList();
+    
+    Role selectById(Long id);
+    
+    int insert(Role entity);
+    
+    int update(Role entity);
+    
+    int deleteById(Long id);
+    
+    int deleteBatchIds(List<Long> ids);
+    
+    List<Role> selectByPage(PageInfoReqVo<Role> pageInfoReqVo);
 }

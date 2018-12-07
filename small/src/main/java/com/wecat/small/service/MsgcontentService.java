@@ -34,7 +34,7 @@ public class MsgcontentService{
 		List<Msgcontent> eList=targetMapper.selectByPage(pageInfoReqVo);
 		PageInfo<Msgcontent> pageDataList = new PageInfo<>(eList);
 		BaseRespData baseRespData=new BaseRespData();
-		baseRespData.setAaData(eList);
+		baseRespData.setAaData(pageDataList.getList());
 		baseRespData.setStaus(0);
 		baseRespData.setDataCount(pageDataList.getTotal());
     	return baseRespData;

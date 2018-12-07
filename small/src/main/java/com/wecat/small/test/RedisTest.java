@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.wecat.small.Test;
+package com.wecat.small.test;
 
 
 

@@ -1,71 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wecat.small.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.wecat.small.entity.Role">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="nameZh" jdbcType="VARCHAR" property="namezh" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, name, nameZh
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from role
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.wecat.small.entity.Role">
-    insert into role (id, name, nameZh
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{namezh,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.wecat.small.entity.Role">
-    insert into role
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="namezh != null">
-        nameZh,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="namezh != null">
-        #{namezh,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wecat.small.entity.Role">
-    update role
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="namezh != null">
-        nameZh = #{namezh,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.wecat.small.entity.Role">
-    update role
-    set name = #{name,jdbcType=VARCHAR},
-      nameZh = #{namezh,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wecat.small.entity.Role">
+        <id column="id"  property="id" />
+        <result column="name"  property="name" />
+        <result column="nameZh"  property="nameZh" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, nameZh
+    </sql>  
+    
+    <!--创建记录 -->
+	<insert id="insert" parameterType="com.wecat.small.entity.Role" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO role
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id!=null">id,</if>
+          <if test="name!=null">name,</if>
+          <if test="nameZh!=null">nameZh</if>
+        </trim>
+	    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+          <if test="id!=null">#{id},</if>
+          <if test="name!=null">#{name},</if>
+          <if test="nameZh!=null">#{nameZh}</if>
+	    </trim>
+	</insert>    
+    <!--批量创建记录 -->
+	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+		<foreach collection="list" item="item" index="index" separator=";">
+			INSERT INTO role
+			<trim prefix="(" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">id,</if>
+	          <if test="item.name!=null">name,</if>
+	          <if test="item.nameZh!=null">nameZh</if>
+	        </trim>
+		    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+	          <if test="item.id!=null">#{item.id},</if>
+	          <if test="item.name!=null">#{item.name},</if>
+	          <if test="item.nameZh!=null">#{item.nameZh}</if>
+		    </trim>
+		</foreach>
+	</insert>
+<!-- 更新记录 -->
+	<update id="update" parameterType="com.wecat.small.entity.Role">
+		UPDATE role
+		<set>
+          <if test="name!=null">name = #{name},</if>
+          <if test="nameZh!=null">nameZh = #{nameZh}</if>
+		</set>
+		<where> 
+        id = #{id}
+		</where>				
+	</update>    
+    
+	<!--批量更新记录 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">
+			UPDATE role
+			<set>
+	          <if test="item.name!=null">name = #{item.name},</if>
+	          <if test="item.nameZh!=null">nameZh = #{item.nameZh}</if>
+			</set>
+			<where> 
+	          id = #{item.id}
+			</where>
+		</foreach>
+	</update>    
+    <!-- 按ID查询记录 -->
+	<select id="selectById" parameterType="long" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM role
+		WHERE 
+	      id = #{id}
+	</select>
+	<!-- 查询所有记录 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM role	
+	</select>
+	
+	<!-- 按Id删除 -->
+	<delete id="deleteById" parameterType="long">
+		DELETE FROM role 
+		WHERE 
+	      id = #{id}
+	</delete>
+
+	<!-- 按Id批量删除 -->
+	<delete id="deleteBatchIds" parameterType="java.util.List">
+		DELETE FROM role WHERE 
+	      id
+          in (
+		<foreach collection="list" item="item" index="index" separator=";">
+			#{item}
+		</foreach>
+		)
+	</delete>
+    <select id="selectByPage" parameterType="com.wecat.small.common.PageInfoReqVo" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from role
+	    <where>
+	       1=1
+	       <if test="queryData!=null">
+		       <if test="queryData.name!=null and queryData.name!='' "> and name like CONCAT('%',#{queryData.name},'%')</if> 
+			       <if test="queryData.nameZh!=null and queryData.nameZh!='' "> and nameZh like CONCAT('%',#{queryData.nameZh},'%')</if> 
+			   </if>
+	    </where>
+	  </select>
+    
 </mapper>

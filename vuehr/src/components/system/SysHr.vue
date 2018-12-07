@@ -9,6 +9,7 @@
         v-model="keywords">
       </el-input>
       <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
+      <el-button size="small" type="primary" icon="el-icon-plus" @click="dialogFormVisible = true">新增</el-button>
     </div>
     <div style="display: flex;justify-content: space-around;flex-wrap: wrap;text-align: left">
       <el-card style="width: 350px;margin-bottom: 20px" v-for="(item,index) in hrs" :key="item.id"
@@ -21,7 +22,7 @@
         </div>
         <div>
           <div style="width: 100%;display: flex;justify-content: center">
-            <img :src="item.userface" alt="item.name" style="width: 70px;height: 70px;border-radius: 70px">
+            <img :src="item.userface" alt="" style="width: 70px;height: 70px;border-radius: 70px"/>
           </div>
           <div style="margin-top: 20px">
             <div><span class="user-info">用户名:{{item.name}}</span></div>
@@ -78,12 +79,62 @@
         </div>
       </el-card>
     </div>
+    <el-dialog title="新增操作人" :visible.sync="dialogFormVisible">
+		  <el-form :model="form">
+		    <el-form-item label="用户姓名" :label-width="formLabelWidth">
+		      <el-input v-model="form.name" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="用户账号" :label-width="formLabelWidth">
+		      <el-input v-model="form.username" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="用户密码" :label-width="formLabelWidth">
+		      <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+		    </el-form-item>
+		    <el-form-item label="手机号码" :label-width="formLabelWidth">
+		      <el-input v-model="form.telephone" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="电话号码" :label-width="formLabelWidth">
+		      <el-input v-model="form.phone" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="用户地址" :label-width="formLabelWidth">
+		      <el-input v-model="form.address" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="用户备注" :label-width="formLabelWidth">
+		      <el-input v-model="form.remark" autocomplete="off"></el-input>
+		    </el-form-item>
+		    <el-upload
+				  class="avatar-uploader"
+				  action="/upload"
+				  :show-file-list="false"
+				  :on-success="handleAvatarSuccess">
+				  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+				  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+				</el-upload>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button @click="dialogFormVisible = false">取 消</el-button>
+		    <el-button type="primary" @click="add">确 定</el-button>
+		  </div>
+		</el-dialog>
   </div>
 </template>
 <script>
   export default{
     data(){
       return {
+      	imageUrl: '',
+      	dialogFormVisible: false,
+      	form: {
+          name: '宁缺',
+          username: '',
+          password: '',
+          telephone: '0818-7990999',
+          phone: '18982008537',
+          address: '泰坦星球',
+          remark: '外星人光临地球',
+          userface:''
+        },
+        formLabelWidth: '120px',
         keywords: '',
         fullloading: false,
         hrs: [],
@@ -100,6 +151,10 @@
       this.loadAllRoles();
     },
     methods: {
+    	handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+        this.form.userface=res.msg;
+      },
       searchClick(){
         this.initCards();
         this.loadAllRoles();
@@ -138,7 +193,9 @@
       refreshHr(hrId, index){
         var _this = this;
         _this.cardLoading.splice(index, 1, true)
-        this.putRequest("/system/hr/id/" + hrId).then(resp=> {
+        this.postRequestEx("/Hr/find",{
+          id: hrId
+        }).then(resp=> {
           _this.cardLoading.splice(index, 1, false)
           _this.hrs.splice(index, 1, resp.data);
         })
@@ -154,25 +211,24 @@
       },
       loadAllRoles(){
         var _this = this;
-        this.getRequest("/system/basic/roles").then(resp=> {
+        this.getRequest("/Role/all").then(resp=> {
           _this.fullloading = false;
           if (resp && resp.status == 200) {
-            _this.allRoles = resp.data;
+            _this.allRoles = resp.data.aaData;
           }
         })
       },
       switchChange(newValue, hrId, index){
         var _this = this;
         _this.cardLoading.splice(index, 1, true)
-        this.putRequest("/system/hr/", {
+        this.postRequestEx("/Hr/update", {
           enabled: newValue,
           id: hrId
         }).then(resp=> {
           _this.cardLoading.splice(index, 1, false)
           if (resp && resp.status == 200) {
             var data = resp.data;
-            _
-            if (data.status == 'error') {
+            if (data.status == 99) {
               _this.refreshHr(hrId, index);
             }
           } else {
@@ -189,16 +245,34 @@
         } else {
           searchWords = this.keywords;
         }
-        this.getRequest("/system/hr/" + searchWords).then(resp=> {
+        this.getRequest("/Hr/all").then(resp=> {
           if (resp && resp.status == 200) {
-            _this.hrs = resp.data;
-            var length = resp.data.length;
+            _this.hrs = resp.data.aaData;
+            var length = resp.data.aaData.length;
             _this.cardLoading = Array.apply(null, Array(length)).map(function (item, i) {
               return false;
             });
             _this.eploading = Array.apply(null, Array(length)).map(function (item, i) {
               return false;
             });
+          }
+        })
+      },
+      add(){
+      	this.dialogFormVisible=false;
+      	this.postRequestEx("/Hr/add", {
+          name:this.form.name,
+          username:this.form.username,
+          telephone:this.form.telephone,
+          phone:this.form.phone,
+          address:this.form.address,
+          remark:this.form.remark,
+          password:this.form.password,
+          userface:this.form.userface
+       }).then(resp=> {
+          if (resp && resp.status == 200) {
+              _this.initCards();
+              _this.loadAllRoles();
           }
         })
       },
@@ -224,5 +298,28 @@
   .user-info {
     font-size: 12px;
     color: #09c0f6;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

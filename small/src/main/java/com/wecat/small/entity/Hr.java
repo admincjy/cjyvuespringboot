@@ -3,8 +3,10 @@
  */
 package com.wecat.small.entity;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +32,21 @@ public class Hr implements UserDetails{
     private String remark;
     private List<Role> roles;
     private String userface;
+    private Date createTime;
     
     
+    
+    
+
+	
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
 	public Long getId() {
 		return id;
@@ -132,7 +147,7 @@ public class Hr implements UserDetails{
 		return enabled;
 	}
 
-	@JsonIgnore
+	
 	@Override
 	public String getPassword() {
 		return password;

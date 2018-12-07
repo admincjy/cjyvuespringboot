@@ -4,9 +4,11 @@
 package com.wecat.small.Controller.emp;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.wecat.small.common.BaseRespMsg;
+import com.wecat.small.common.MyLog;
+import com.wecat.small.entity.EmailEntity;
 import com.wecat.small.entity.EmployeeEntity;
 import com.wecat.small.entity.PageInfoSmall;
 import com.wecat.small.service.EmpBasicService;
+import com.wecat.small.utils.EmailUtils;
 
 /**
  * @author Administrator
@@ -28,11 +33,14 @@ public class EmpBasicController {
      
 	@Autowired EmpBasicService empBasicService;
 	
+	@Autowired EmailUtils emailUtils;
+	
 	
 	/*
 	 * 分页查询员工基本数据
 	 * 使用PageHelper插件分页  逻辑处理在service层
 	 */
+	@MyLog(requestUrl = "/emp请求")
 	@RequestMapping(value = "/emp")
 	public Map<String, Object> emp(@RequestBody PageInfoSmall<EmployeeEntity> pageInfo){
 		Map<String, Object> map=empBasicService.selectAll(pageInfo);
@@ -72,6 +80,21 @@ public class EmpBasicController {
 			return new BaseRespMsg(0,"添加成功");
 		}
         return BaseRespMsg.error("添加失败");
+	}
+	
+	/*
+	 *  发送邮件
+	 */
+	@RequestMapping(value = "/sentMail", method = RequestMethod.POST)
+	public BaseRespMsg sentMail(EmailEntity emailEntity,BindingResult bindingResult){
+		boolean flag = emailUtils.sendEmail(emailEntity.getSubject(), 
+				emailEntity.getToUsers(), emailEntity.getCcUsers(), 
+				emailEntity.getContent(), emailEntity.getAttachfiles());
+		if (flag) {
+			return new BaseRespMsg(0,"发送成功");
+		} else {
+	        return new BaseRespMsg(99,"发送失败");
+        }
 	}
 	
 }
