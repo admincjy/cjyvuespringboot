@@ -1,8 +1,12 @@
 package com.wecat.small.Controller.system;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+
+import com.wecat.small.service.HrRoleService;
 import com.wecat.small.service.HrService;
 import com.wecat.small.entity.Hr;
+import com.wecat.small.entity.hrRole;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +14,10 @@ import com.wecat.small.common.BaseRespData;
 import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.common.PageInfoReqVo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,6 +34,8 @@ public class HrController {
 
     @Autowired
     private HrService targetService;
+    @Autowired
+    private HrRoleService hrRoleService;
 
     
     /**
@@ -118,12 +126,49 @@ public class HrController {
      * 删除数据
      */
     @RequestMapping("/del")
-    public BaseRespMsg deleteItems(@RequestParam("id") Long id){
-        int isOk = targetService.deleteById(id);
+    public BaseRespMsg deleteItems(Long id){
+    	List<hrRole> hrRoles=hrRoleService.selectByHrid(Integer.valueOf(id.toString()));
+        if (!hrRoles.isEmpty()) {
+        	List<Integer> ids=new ArrayList<>();
+        	for(hrRole entity:hrRoles){
+        		ids.add(entity.getId());
+        	}
+        	hrRoleService.deleteBatchIds(ids);
+		}
+    	int isOk = targetService.deleteById(id);
         if(isOk==1){
             return new BaseRespMsg(0,"删除成功");
         }
         return BaseRespMsg.error("删除失败");
+    }
+    
+    /**
+     * 更新用户角色
+     */
+    @RequestMapping(value = "/roles", method = RequestMethod.POST)
+    public BaseRespMsg updateRole(@RequestBody Map<String, Object> map){
+    	List<hrRole> hrRoles=hrRoleService.selectByHrid((Integer) map.get("hrId"));
+        if(!hrRoles.isEmpty()) {
+        	List<Integer> ids=new ArrayList<>();
+        	for(hrRole entity:hrRoles){
+        		ids.add(entity.getId());
+        	}
+        	hrRoleService.deleteBatchIds(ids);
+		}
+        @SuppressWarnings("unchecked")
+		List<Integer> rids=(List<Integer>) map.get("rids");
+    	List<hrRole> entitys=new ArrayList<>();
+    	for(Integer id:rids){
+    		hrRole entity=new hrRole();
+    		entity.setHrid((Integer) map.get("hrId"));
+    		entity.setRid(id);
+    		entitys.add(entity);
+    	}
+    	int isOk=hrRoleService.batchSave(entitys);
+    	if(isOk>0){
+            return new BaseRespMsg(0,"修改成功");
+        }
+    	return new BaseRespMsg(99,"修改失败");
     }
     
   }

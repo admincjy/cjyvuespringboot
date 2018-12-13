@@ -9,6 +9,9 @@
         <result column="type"  property="type" />
         <result column="hrid"  property="hrid" />
         <result column="state"  property="state" />
+	    <result column="title" jdbcType="VARCHAR" property="title" />
+	    <result column="message" jdbcType="VARCHAR" property="message" />
+	    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -92,8 +95,7 @@
 	</select>
 	<!-- 查询所有记录 -->
 	<select id="selectList" resultMap="BaseResultMap">
-		SELECT <include refid="Base_Column_List" />
-		FROM sysmsg	
+		SELECT * FROM sysmsg s1 LEFT JOIN msgcontent s2 on s1.mid=s2.id
 	</select>
 	
 	<!-- 按Id删除 -->

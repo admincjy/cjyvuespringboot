@@ -114,7 +114,7 @@
       },
       initSysMsgs(){
         var _this = this;
-        this.getRequest("/chat/sysmsgs").then(resp=> {
+        this.getRequest("/Msgcontent/all").then(resp=> {
           _this.sysmsgs = resp.data;
           var isDot = false;
           _this.sysmsgs.forEach(msg=> {

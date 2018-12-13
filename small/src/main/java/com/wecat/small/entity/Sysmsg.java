@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
 
 
 
@@ -37,9 +38,41 @@ public class Sysmsg implements Serializable {
      * 0 未读 1 已读
      */
    private Integer state;
+   
+   private String title;
+
+   private String message;
+
+   private Date createdate;
+   
+   
 
 
-   public  Integer getId() {
+   public String getTitle() {
+	return title;
+}
+
+public void setTitle(String title) {
+	this.title = title;
+}
+
+public String getMessage() {
+	return message;
+}
+
+public void setMessage(String message) {
+	this.message = message;
+}
+
+public Date getCreatedate() {
+	return createdate;
+}
+
+public void setCreatedate(Date createdate) {
+	this.createdate = createdate;
+}
+
+public  Integer getId() {
       return id;
    }
 
@@ -79,15 +112,12 @@ public class Sysmsg implements Serializable {
       this.state = state;
    }
 
+	@Override
+	public String toString() {
+		return "Sysmsg [id=" + id + ", mid=" + mid + ", type=" + type + ", hrid=" + hrid + ", state=" + state + ", title="
+			+ title + ", message=" + message + ", createdate=" + createdate + "]";
+	}
 
-   @Override
-   public String toString() {
-      return "Sysmsg{" +
-         "id=" + id +
-         ", mid=" + mid +
-         ", type=" + type +
-         ", hrid=" + hrid +
-         ", state=" + state +
-         "}";
-   }
+
+   
 }

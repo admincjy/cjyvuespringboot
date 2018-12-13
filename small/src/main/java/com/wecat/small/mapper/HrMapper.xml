@@ -13,6 +13,11 @@
         <result column="userface" jdbcType="VARCHAR" property="userface"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="create_time"  property="createTime" />
+        <collection property="roles" ofType="com.wecat.small.entity.Role">
+	        <id column="rid" property="id"/>
+	        <result column="rname" property="name"/>
+	        <result column="rnameZh" property="nameZh"/>
+	    </collection> 
     </resultMap>
     <resultMap id="lazyLoadRoles" type="com.wecat.small.entity.Hr" extends="BaseResultMap">
         <collection property="roles" ofType="com.wecat.small.entity.Role" select="com.wecat.small.mapper.HrMapper.getRolesByHrId"
@@ -215,8 +220,10 @@
 	</select>
 	<!-- 查询所有记录 -->
 	<select id="selectList" resultMap="BaseResultMap">
-		SELECT <include refid="Base_Column_List" />
-		FROM hr	
+		SELECT t1.*,t3.id as rid,t3.`name` as rname,t3.nameZh as rnameZh 
+		       FROM hr t1 
+		       LEFT JOIN hr_role t2 on t1.id=t2.hrid 
+               LEFT JOIN role t3 on t2.rid=t3.id
 	</select>
 	
 	<!-- 按Id删除 -->

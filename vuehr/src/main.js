@@ -11,6 +11,7 @@ import {postRequest} from './utils/api'
 import {postRequestEx} from './utils/api'
 import {deleteRequest} from './utils/api'
 import {putRequest} from './utils/api'
+import {postRequestId} from './utils/api'
 import {initMenu} from './utils/utils'
 import {isNotNullORBlank} from './utils/utils'
 import './utils/filter_utils'
@@ -24,6 +25,7 @@ Vue.prototype.postRequest = postRequest;
 Vue.prototype.postRequestEx = postRequestEx;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
+Vue.prototype.postRequestId = postRequestId;
 Vue.prototype.isNotNullORBlank = isNotNullORBlank;
 
 router.beforeEach((to, from, next)=> {

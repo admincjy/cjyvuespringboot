@@ -153,7 +153,7 @@
     methods: {
     	handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.userface=res.msg;
+        this.form.userface=res.msg.split("\\")[4]
       },
       searchClick(){
         this.initCards();
@@ -176,7 +176,7 @@
           }
         }
         this.eploading.splice(index, 1, true)
-        this.putRequest("/system/hr/roles", {
+        this.postRequestEx("/Hr/roles", {
           hrId: hrId,
           rids: this.selRoles
         }).then(resp=> {
@@ -201,6 +201,7 @@
         })
       },
       loadSelRoles(hrRoles, index){
+      	console.log(111)
         this.moreBtnState = true;
         this.selRoles = [];
         this.selRolesBak = [];
@@ -248,6 +249,9 @@
         this.getRequest("/Hr/all").then(resp=> {
           if (resp && resp.status == 200) {
             _this.hrs = resp.data.aaData;
+            for(var i=5;i<resp.data.aaData.length;i++){
+            	_this.hrs[i].userface='/servlet/getfile?file=' + resp.data.aaData[i].userface;
+            }
             var length = resp.data.aaData.length;
             _this.cardLoading = Array.apply(null, Array(length)).map(function (item, i) {
               return false;
@@ -271,15 +275,18 @@
           userface:this.form.userface
        }).then(resp=> {
           if (resp && resp.status == 200) {
-              _this.initCards();
-              _this.loadAllRoles();
+              this.initCards();
+              this.loadAllRoles();
           }
         })
       },
       deleteHr(hrId){
         var _this = this;
         this.fullloading = true;
-        this.deleteRequest("/system/hr/" + hrId).then(resp=> {
+        var params={
+                  id: hrId
+               };
+        this.postRequestId("/Hr/del",params).then(resp=> {
           _this.fullloading = false;
           if (resp && resp.status == 200) {
             var data = resp.data;

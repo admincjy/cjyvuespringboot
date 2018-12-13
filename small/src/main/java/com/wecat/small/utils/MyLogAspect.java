@@ -27,7 +27,7 @@ public class MyLogAspect {
 
 
     /**
-     * 在方法执行前后
+     * 在方法执行前
      *
      * @param point
      * @param myLog

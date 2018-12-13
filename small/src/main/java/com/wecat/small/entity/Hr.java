@@ -187,6 +187,13 @@ public class Hr implements UserDetails{
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Hr [id=" + id + ", name=" + name + ", phone=" + phone + ", telephone=" + telephone + ", address="
+				+ address + ", enabled=" + enabled + ", username=" + username + ", password=" + password + ", remark="
+				+ remark + ", roles=" + roles + ", userface=" + userface + ", createTime=" + createTime + "]";
+	}
+
 	
 	
 

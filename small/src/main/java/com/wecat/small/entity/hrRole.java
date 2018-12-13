@@ -34,4 +34,10 @@ public class hrRole implements Serializable {
     public void setRid(Integer rid) {
         this.rid = rid;
     }
+
+	@Override
+	public String toString() {
+		return "hrRole [id=" + id + ", hrid=" + hrid + ", rid=" + rid + "]";
+	}
+    
 }
