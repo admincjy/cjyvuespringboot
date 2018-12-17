@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -181,6 +184,30 @@ public  Integer getUserId() {
 
    public void setUserId(Integer userId) {
       this.userId = userId;
+   }
+   
+   /**
+    * 设置请求参数
+    * @param paramMap
+    */
+   public void setMapToParams(Map<String, String[]> map) {
+//	   Map map=request.getParameterMap();  
+	    Set keSet=map.entrySet();  
+	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
+	        Map.Entry me=(Map.Entry)itr.next();  
+	        Object ok=me.getKey();  
+	        Object ov=me.getValue();  
+	        String[] value=new String[1];  
+	        if(ov instanceof String[]){  
+	            value=(String[])ov;  
+	        }else{  
+	            value[0]=ov.toString();  
+	        }  
+	  
+	        for(int k=0;k<value.length;k++){  
+	            System.out.println(ok+"="+value[k]);  
+	        }  
+	      }
    }
 
 

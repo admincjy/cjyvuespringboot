@@ -9,5 +9,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER,ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SystemControllerLog {
-      String description() default "";
+      
+	  String description() default "";
+      
+	  SqlType type() default SqlType.SELECT;
+      
 }

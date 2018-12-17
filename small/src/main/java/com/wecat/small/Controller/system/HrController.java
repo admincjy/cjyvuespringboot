@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import com.wecat.small.common.BaseRespData;
 import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.common.PageInfoReqVo;
+import com.wecat.small.common.SqlType;
+import com.wecat.small.common.SystemControllerLog;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +43,7 @@ public class HrController {
     /**
      * 获取分页数据列表
      */
+    @SystemControllerLog(description="分页查询用户",type=SqlType.SELECT)
     @RequestMapping("/list")
 	public BaseRespData list(@RequestBody PageInfoReqVo<Hr> pageInfoReqVo){
     	BaseRespData baseRespData=targetService.selectByPage(pageInfoReqVo);
@@ -51,6 +54,7 @@ public class HrController {
     /**
      * 获取全部数据
      */
+    @SystemControllerLog(description="查询所有用户信息",type=SqlType.SELECT)
     @RequestMapping("/all")
     public BaseRespData findAll(){
         List<Hr> entitys = targetService.selectList();
@@ -64,6 +68,7 @@ public class HrController {
     /**
      * 根据ID查找数据
      */
+    @SystemControllerLog(description="查询",type=SqlType.SELECT)
     @RequestMapping("/find")
     public BaseRespData find(@RequestParam("id") Long id){
         Hr entity = targetService.selectById(id);
@@ -77,6 +82,7 @@ public class HrController {
     /**
      * 添加数据
      */
+    @SystemControllerLog(description="新增",type=SqlType.INSERTE)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseRespMsg addItem(@RequestBody Hr entity){
     	entity.setCreateTime(new Date());
@@ -100,6 +106,7 @@ public class HrController {
     /**
      * 更新数据
      */
+    @SystemControllerLog(description="更新",type=SqlType.UPDTAE)
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public BaseRespMsg update(@RequestBody Hr entity){
         int isOk = targetService.update(entity);
@@ -125,6 +132,7 @@ public class HrController {
     /**
      * 删除数据
      */
+    @SystemControllerLog(description="删除",type=SqlType.DELETE)
     @RequestMapping("/del")
     public BaseRespMsg deleteItems(Long id){
     	List<hrRole> hrRoles=hrRoleService.selectByHrid(Integer.valueOf(id.toString()));
@@ -145,6 +153,7 @@ public class HrController {
     /**
      * 更新用户角色
      */
+    @SystemControllerLog(description="更新用户角色",type=SqlType.UPDTAE)
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
     public BaseRespMsg updateRole(@RequestBody Map<String, Object> map){
     	List<hrRole> hrRoles=hrRoleService.selectByHrid((Integer) map.get("hrId"));

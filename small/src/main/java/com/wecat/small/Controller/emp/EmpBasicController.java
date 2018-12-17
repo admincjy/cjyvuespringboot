@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.common.MyLog;
+import com.wecat.small.common.SqlType;
+import com.wecat.small.common.SystemControllerLog;
 import com.wecat.small.entity.EmailEntity;
 import com.wecat.small.entity.EmployeeEntity;
 import com.wecat.small.entity.PageInfoSmall;
@@ -40,6 +42,7 @@ public class EmpBasicController {
 	 * 分页查询员工基本数据
 	 * 使用PageHelper插件分页  逻辑处理在service层
 	 */
+	@SystemControllerLog(description="分页查询员工",type=SqlType.SELECT)
 	@MyLog(requestUrl = "/emp请求")
 	@RequestMapping(value = "/emp")
 	public Map<String, Object> emp(@RequestBody PageInfoSmall<EmployeeEntity> pageInfo){
@@ -85,6 +88,7 @@ public class EmpBasicController {
 	/*
 	 *  发送邮件
 	 */
+	@SystemControllerLog(description="发送邮件",type=SqlType.OTHER)
 	@RequestMapping(value = "/sentMail", method = RequestMethod.POST)
 	public BaseRespMsg sentMail(EmailEntity emailEntity,BindingResult bindingResult){
 		boolean flag = emailUtils.sendEmail(emailEntity.getSubject(), 
