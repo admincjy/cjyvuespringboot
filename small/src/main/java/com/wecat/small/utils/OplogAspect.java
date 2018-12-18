@@ -5,12 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,16 +17,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.wecat.small.common.MyLog;
+
 import com.wecat.small.common.SqlType;
 import com.wecat.small.common.SystemControllerLog;
 import com.wecat.small.entity.Hr;
@@ -70,18 +65,21 @@ public class OplogAspect {
      *
      * @param point
      * @param myLog
-     * @return 
      * @return
      */
     @Around(value = "pointcut()")
     public Object around(ProceedingJoinPoint point) {
         System.out.println("开始执行该方法:"+nowDate);
-        Oplog oplog=new Oplog();
-        oplog.setCreateDate(new Date());
-        oplogService.insert(oplog);
-        id=oplog.getId();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getRequestURI().equals("/config/sysmenu")||request.getRequestURI().equals("/Oplog/list")){
+        }else{
+        	Oplog oplog=new Oplog();
+            oplog.setCreateDate(new Date());
+            oplogService.insert(oplog);
+            id=oplog.getId();
+        }
         try {
-            return point.proceed(); //执行程序
+        	return point.proceed(); //执行程序
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             return throwable.getMessage();
@@ -100,6 +98,9 @@ public class OplogAspect {
     public void afterReturning(JoinPoint joinPoint,Object result) {
     	Map<String, String> map=getControllerMethodDescription(joinPoint);
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getRequestURI().equals("/config/sysmenu")||request.getRequestURI().equals("/Oplog/list")){
+        	return;
+        }
         Hr hr=(Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId=hr.getId();
         Oplog oplog=new Oplog();
@@ -129,11 +130,33 @@ public class OplogAspect {
      */
     @AfterThrowing(value = "pointcut()", throwing = "ex")
     public void afterThrowing(JoinPoint joinPoint, Exception ex) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getRequestURI().equals("/config/sysmenu")||request.getRequestURI().equals("/Oplog/list")){
+         	return;
+        }
     	title="error"; 
     	exception="异常";
-        System.out.println("++++方法异常异常异常异常异常后++++");
+    	Map<String, String> map=getControllerMethodDescription(joinPoint);
+        Hr hr=(Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId=hr.getId();
+        Oplog oplog=new Oplog();
+        oplog.setId(id);
+        oplog.setHrid(userId.intValue());
+        oplog.setRequestUri(request.getRequestURL().toString());
+        oplog.setRemoteAddr(request.getRequestURI());
+        oplog.setType(map.get("type"));
+        oplog.setTitle(title);
+        oplog.setOperate(map.get("discription"));
+        oplog.setMethod(request.getMethod());
+        oplog.setEndTime(new Date());
+        oplog.setException(exception);
+        oplog.setParams(this.getParams(request,request.getParameterNames()));
+        oplogService.update(oplog);
         System.out.println("请求出现异常");
     }
+    
+    
+    
     
     
      /**

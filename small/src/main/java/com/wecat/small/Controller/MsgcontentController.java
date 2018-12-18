@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.wecat.small.common.BaseRespData;
 import com.wecat.small.common.BaseRespMsg;
 import com.wecat.small.common.PageInfoReqVo;
+import com.wecat.small.common.SqlType;
+import com.wecat.small.common.SystemControllerLog;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class MsgcontentController {
     /**
      * 获取全部数据
      */
+    @SystemControllerLog(description="查询所有消息通知",type=SqlType.SELECT)
     @RequestMapping("/all")
     public BaseRespData findAll(){
         List<Msgcontent> entitys = targetService.selectList();

@@ -191,6 +191,7 @@
 			       <if test="queryData.userId!=null"> and userId = #{queryData.userId}</if>
 			   </if>
 	    </where>
+	    ORDER BY id DESC
 	  </select>
     
 </mapper>
