@@ -49,14 +49,19 @@ public class OplogAspect {
     private String exception="正常";
     
 	//切入点
-	@Pointcut("execution(* com.wecat.small.Controller..*.*(..)) "
-			+ "and !execution(* com.wecat.small.service.MenuService.getAllMenu()) "
-			+ "and !execution(* com.wecat.small.Controller.OplogController.addItem(..)) "
-			+ "and !execution(* com.wecat.small.Controller.OplogController.update(..)) "
-			+ "and !execution(* com.wecat.small.Controller.OplogController.list(..)) "
-			+ "and !execution(* com.wecat.small.Controller.ConfigController.sysmenu())")
+//	@Pointcut("execution(* com.wecat.small.Controller..*.*(..)) "
+//			+ "and !execution(* com.wecat.small.service.MenuService.getAllMenu()) "
+//			+ "and !execution(* com.wecat.small.Controller.OplogController.addItem(..)) "
+//			+ "and !execution(* com.wecat.small.Controller.OplogController.update(..)) "
+//			+ "and !execution(* com.wecat.small.Controller.OplogController.list(..)) "
+//			+ "and !execution(* com.wecat.small.Controller.ConfigController.sysmenu()) "
+//			+ "and !execution(* com.wecat.small.Controller.WebSoketController.handleChat(..))")
+//    private void pointcut() {
+//          
+//    }
+    @Pointcut(value = "@annotation(com.wecat.small.common.SystemControllerLog)")
     private void pointcut() {
-          
+
     }
 
 
@@ -117,8 +122,6 @@ public class OplogAspect {
         oplog.setParams(this.getParams(request,request.getParameterNames()));
         oplogService.update(oplog);
         System.out.println("方法已完成执行:"+nowDate);
-        System.out.println("参数:"+request.getParameterNames().toString());
-        System.out.println("参数:"+request.getParameterMap());
     }
 
     /**
@@ -128,32 +131,32 @@ public class OplogAspect {
      * @param myLog
      * @param ex
      */
-    @AfterThrowing(value = "pointcut()", throwing = "ex")
-    public void afterThrowing(JoinPoint joinPoint, Exception ex) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        if(request.getRequestURI().equals("/config/sysmenu")||request.getRequestURI().equals("/Oplog/list")){
-         	return;
-        }
-    	title="error"; 
-    	exception="异常";
-    	Map<String, String> map=getControllerMethodDescription(joinPoint);
-        Hr hr=(Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long userId=hr.getId();
-        Oplog oplog=new Oplog();
-        oplog.setId(id);
-        oplog.setHrid(userId.intValue());
-        oplog.setRequestUri(request.getRequestURL().toString());
-        oplog.setRemoteAddr(request.getRequestURI());
-        oplog.setType(map.get("type"));
-        oplog.setTitle(title);
-        oplog.setOperate(map.get("discription"));
-        oplog.setMethod(request.getMethod());
-        oplog.setEndTime(new Date());
-        oplog.setException(exception);
-        oplog.setParams(this.getParams(request,request.getParameterNames()));
-        oplogService.update(oplog);
-        System.out.println("请求出现异常");
-    }
+//    @AfterThrowing(value = "pointcut()", throwing = "ex")
+//    public void afterThrowing(JoinPoint joinPoint, Exception ex) {
+//        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//        if(request.getRequestURI().equals("/config/sysmenu")||request.getRequestURI().equals("/Oplog/list")){
+//         	return;
+//        }
+//    	title="error"; 
+//    	exception="异常";
+//    	Map<String, String> map=getControllerMethodDescription(joinPoint);
+//        Hr hr=(Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Long userId=hr.getId();
+//        Oplog oplog=new Oplog();
+//        oplog.setId(id);
+//        oplog.setHrid(userId.intValue());
+//        oplog.setRequestUri(request.getRequestURL().toString());
+//        oplog.setRemoteAddr(request.getRequestURI());
+//        oplog.setType(map.get("type"));
+//        oplog.setTitle(title);
+//        oplog.setOperate(map.get("discription"));
+//        oplog.setMethod(request.getMethod());
+//        oplog.setEndTime(new Date());
+//        oplog.setException(exception);
+//        oplog.setParams(this.getParams(request,request.getParameterNames()));
+//        oplogService.update(oplog);
+//        System.out.println("请求出现异常");
+//    }
     
     
     

@@ -66,6 +66,14 @@ public class SysmsgService{
         int isOk = targetMapper.insert(entity);
         return isOk;
     }
+    
+    /**
+     * 批量添加数据
+     */
+    public int batchSave(List<Sysmsg> record){
+        int isOk = targetMapper.batchSave(record);
+        return isOk;
+    }
 
 
     /**

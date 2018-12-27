@@ -1,24 +1,15 @@
 <template>
   <div>
+    <div style="width: 700px;">
+    	<el-tag type="warning">当前在线{{}}人</el-tag>
+    </div>
     <el-container>
-      <el-aside width="160px">
-        <div class="friendListDiv" v-for="(hr,index) in hrs" :key="hr.id" @click="toggleFriend(hr)"
-             v-bind:class="{currentChatFriend:currentFriend.id==hr.id}">
-          <img :src="hr.userface" class="userfaceImg"/>
-          <el-badge :is-dot="isDotMap.get('isDot#'+currentUser.username+'#'+hr.username)!=null">{{hr.name}}</el-badge>
-        </div>
-        <div style="background-color: #20a0ff;height: 1px;width: 160px;"/>
-      </el-aside>
       <el-main style="padding-top: 0px;padding-bottom: 0px">
         <div class="chatDiv" ref="chatDiv" id="chatDiv">
-          <p v-show="currentFriend.name">与
-            <el-tag type="primary" size="small" style="margin-left: 5px;margin-right: 5px">{{currentFriend.name}}
-            </el-tag>
-            聊天中
-          </p>
-          <template v-for="msg in msgList">
+        	<template>
+   <!--       <template v-for="msg in msgList">-->
             <!--发送来的消息-->
-            <div
+            <!--<div
               style="display: flex;justify-content: flex-start;align-items: center;box-sizing: border-box;"
               v-if="msg.from==currentFriend.username">
               <img :src="currentFriend.userface" class="userfaceImg">
@@ -26,22 +17,21 @@
                 style="display: inline-flex;border-style: solid;border-width: 1px;border-color: #20a0ff;border-radius: 5px;padding: 5px 8px 5px 8px">
                 {{msg.msg}}
               </div>
-            </div>
+            </div>-->
             <!--发出去的消息-->
-            <div v-if="msg.from!=currentFriend.username"
-                 style="display: flex;justify-content: flex-end;align-items: center;box-sizing: border-box;">
+            <div style="display: flex;justify-content: flex-end;align-items: center;box-sizing: border-box;">
               <div
                 style="display: inline-flex;border-style: solid;border-width: 1px;border-color: #20a0ff;border-radius: 5px;padding: 5px 8px 5px 8px;margin-right: 3px;background-color: #9eea6a">
-                {{msg.msg}}
+                {{this.sendmsg}}
               </div>
-              <img :src="currentUser.userface" class="userfaceImg">
+       <!--       <img :src="currentUser.userface" class="userfaceImg">-->
             </div>
           </template>
         </div>
         <div style="text-align: left;margin-top: 10px">
-          <el-input v-model="msg" placeholder="请输入内容" size="mini" style="width: 600px;" type="textarea"
+          <el-input v-model="sendmsg" placeholder="请输入内容" size="mini" style="width: 600px;" type="textarea"
                     autosize></el-input>
-          <el-button :disabled="!currentFriend.id" size="small" type="primary" class="sendBtn" @click="sendMsg"><i
+          <el-button size="small" type="primary" class="sendBtn" @click="sendMsg"><i
             class="fa fa-send"
             style="margin-right: 15px"></i>发送
           </el-button>
@@ -54,44 +44,76 @@
   export default{
     data(){
       return {
+      	username:window.localStorage.name,
         hrs: [],
         msg: '',
+        sendmsg:'',
         currentUser: this.$store.state.user,
         currentFriend: {}
       }
     },
-    computed: {
-      msgList: {
-        get: function () {
-          return this.$store.state.msgList
-        }
-      },
-      isDotMap: {
-        get: function () {
-          return this.$store.state.isDotMap
-        }
-      }
-    },
-    watch: {
-      msgList(){
-        document.getElementById('chatDiv').scrollTop = document.getElementById('chatDiv').scrollHeight;
-      }
+    mounted: function () {
+      this.loadHrs();
+      this.getWebSocket();
     },
     methods: {
-      sendMsg(){
-        var oldMsg = window.localStorage.getItem(this.$store.state.user.username + "#" + this.currentFriend.username);
-        if (oldMsg == null) {
-          oldMsg = [];
-          oldMsg.push({msg: this.msg, from: this.$store.state.user.username});
-          window.localStorage.setItem(this.$store.state.user.username + "#" + this.currentFriend.username, JSON.stringify(oldMsg))
-        } else {
-          var oldMsgJson = JSON.parse(oldMsg);
-          oldMsgJson.push({msg: this.msg, from: this.$store.state.user.username});
-          window.localStorage.setItem(this.$store.state.user.username + "#" + this.currentFriend.username, JSON.stringify(oldMsgJson))
-        }
-        this.$store.state.stomp.send("/ws/chat", {}, this.msg + ";" + this.currentFriend.username);
-        this.msg = '';
-        this.updateChatDiv();
+    	getWebSocket(){
+    		 /**ws://10.2.15.92:8080/chat
+         * WebSocket客户端 PS：URL开头表示WebSocket协议 中间是域名端口 结尾是服务端映射地址
+         */
+        var websocket = new WebSocket('/ws/chat');
+        console.log(websocket)
+        /**
+         * 当服务端打开连接
+         */
+        webSocket.onopen = function (event) {
+            console.log('WebSocket打开连接');
+        };
+
+        /**
+         * 当服务端发来消息：1.广播消息 2.更新在线人数
+         */
+        webSocket.onmessage = function (event) {
+            console.log('WebSocket收到消息：%c' + event.data, 'color:green');
+            //获取服务端消息
+            var message = JSON.parse(event.data) || {};
+            var $messageContainer = $('.message-container');
+            //喉咙发炎
+            if (message.type === 'SPEAK') {
+                $messageContainer.append(
+                    '<div class="mdui-card" style="margin: 10px 0;">' +
+                    '<div class="mdui-card-primary">' +
+                    '<div class="mdui-card-content message-content">' + message.username + "：" + message.msg + '</div>' +
+                    '</div></div>');
+            }
+            $('.chat-num').text(message.onlineCount);
+            //防止刷屏
+            var $cards = $messageContainer.children('.mdui-card:visible').toArray();
+            if ($cards.length > 5) {
+                $cards.forEach(function (item, index) {
+                    index < $cards.length - 5 && $(item).slideUp('fast');
+                });
+            }
+	      };
+        /**
+         * 关闭连接
+         */
+        webSocket.onclose = function (event) {
+            console.log('WebSocket关闭连接');
+        };
+	
+        /**
+         * 通信失败
+         */
+        webSocket.onerror = function (event) {
+            console.log('WebSocket发生异常');
+
+        };
+        return webSocket;
+    	},
+    	sendMsg(){
+//  		console.log(window.localStorage.getItem("user"))
+//    	 this.getWebSocket.send(JSON.stringify({username: this.username, msg:this.sendmsg}))
       },
       updateChatDiv(){
         var oldMsg = window.localStorage.getItem(this.currentUser.username + "#" + this.currentFriend.username);
@@ -118,12 +140,9 @@
           _this.hrs = resp.data.aaData;
           for(var i=5;i<resp.data.aaData.length;i++){
             	_this.hrs[i].userface='/servlet/getfile?file=' + resp.data.aaData[i].userface;
-          }
+           }
         })
       }
-    },
-    mounted: function () {
-      this.loadHrs();
     }
   }
 </script>

@@ -1,6 +1,7 @@
 package com.wecat.small.mapper;
 
 import com.wecat.small.entity.Sysmsg;
+import com.wecat.small.entity.hrRole;
 import com.wecat.small.common.PageInfoReqVo;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface SysmsgMapper{
        Sysmsg selectById(Long id);
        
        int insert(Sysmsg entity);
+       
+       int batchSave(List<Sysmsg> record);
        
        int update(Sysmsg entity);
        

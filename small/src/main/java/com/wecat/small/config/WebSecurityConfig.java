@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		 web.ignoring().antMatchers("/index.html", "/static/**","/servlet/getfile");
+		 web.ignoring().antMatchers("/index.html", "/static/**","/servlet/getfile","/ws/chat");
 	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

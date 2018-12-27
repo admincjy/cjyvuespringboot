@@ -39,22 +39,9 @@
 	</insert>    
     <!--批量创建记录 -->
 	<insert id="batchSave" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
-		<foreach collection="list" item="item" index="index" separator=";">
-			INSERT INTO sysmsg
-			<trim prefix="(" suffix=")" suffixOverrides="," >
-	          <if test="item.id!=null">id,</if>
-	          <if test="item.mid!=null">mid,</if>
-	          <if test="item.type!=null">type,</if>
-	          <if test="item.hrid!=null">hrid,</if>
-	          <if test="item.state!=null">state</if>
-	        </trim>
-		    <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
-	          <if test="item.id!=null">#{item.id},</if>
-	          <if test="item.mid!=null">#{item.mid},</if>
-	          <if test="item.type!=null">#{item.type},</if>
-	          <if test="item.hrid!=null">#{item.hrid},</if>
-	          <if test="item.state!=null">#{item.state}</if>
-		    </trim>
+		insert into sysmsg (mid,type,hrid,state) values
+		<foreach collection="list" separator="," item="item">
+		    (#{item.mid}, #{item.type}, #{item.hrid}, #{item.state})
 		</foreach>
 	</insert>
 <!-- 更新记录 -->
@@ -129,5 +116,4 @@
 			   </if>
 	    </where>
 	  </select>
-    
 </mapper>

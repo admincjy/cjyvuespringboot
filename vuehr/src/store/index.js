@@ -53,6 +53,7 @@ export default new Vuex.Store({
       context.state.stomp = Stomp.over(new SockJS("/ws/endpointChat"));
       context.state.stomp.connect({}, frame=> {
         context.state.stomp.subscribe("/user/queue/chat", message=> {
+        	console.log(6666,message)
           var msg = JSON.parse(message.body);
           var oldMsg = window.localStorage.getItem(context.state.user.username + "#" + msg.from);
           if (oldMsg == null) {

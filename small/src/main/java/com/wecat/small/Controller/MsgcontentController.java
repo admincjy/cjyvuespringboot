@@ -1,8 +1,14 @@
 package com.wecat.small.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+
+import com.wecat.small.service.HrService;
 import com.wecat.small.service.MsgcontentService;
+import com.wecat.small.service.SysmsgService;
+import com.wecat.small.entity.Hr;
 import com.wecat.small.entity.Msgcontent;
+import com.wecat.small.entity.Sysmsg;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.wecat.small.common.BaseRespData;
@@ -11,6 +17,7 @@ import com.wecat.small.common.PageInfoReqVo;
 import com.wecat.small.common.SqlType;
 import com.wecat.small.common.SystemControllerLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +35,10 @@ public class MsgcontentController {
 
     @Autowired
     private MsgcontentService targetService;
+    @Autowired
+    private SysmsgService sysmsgService;
+    @Autowired
+    private HrService hrService;
 
     
     /**
@@ -72,7 +83,20 @@ public class MsgcontentController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseRespMsg addItem(@RequestBody Msgcontent entity){
+    	int id;
         int isOk = targetService.insert(entity);
+        id=entity.getId();
+    	List<Hr> hrs=hrService.selectList();
+    	List<Sysmsg> sysmsgs=new ArrayList<>();
+    	for(Hr hr:hrs){
+    		Sysmsg sysmsg=new Sysmsg();
+    		sysmsg.setState(0);
+    		sysmsg.setType(0);
+    		sysmsg.setMid(id);
+    		sysmsg.setHrid(hr.getId().intValue());
+    		sysmsgs.add(sysmsg);
+    	}
+    	sysmsgService.batchSave(sysmsgs);
         if(isOk==1){
             return new BaseRespMsg(0,"添加成功");
         }

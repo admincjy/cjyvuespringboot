@@ -10,7 +10,7 @@
       </el-header>
       <el-main style="padding: 0px;">
         <el-collapse accordion style="width: 90%" @change="handleChange" v-model="mid">
-          <el-collapse-item v-for="(msg,index) in sysmsgs" :key="index" :name="msg.msgContent.id">
+          <el-collapse-item v-for="(msg,index) in sysmsgs" :key="index" :name="msg.id">
             <template slot="title">
               <div style="display: flex;justify-content: flex-start;align-items: center;">
                 <div style="display: flex;justify-content: center;align-items: center;width: 25px;height: 25px">
@@ -18,13 +18,13 @@
                     style="width: 8px;height: 8px;background-color: #ea0206;border-radius: 8px;"
                     v-if="msg.state==0"></div>
                 </div>
-                <span style="width: 600px;text-align: left">{{msg.msgContent.title}}</span>
-                <el-tag>{{msg.msgContent.createDate|formatDate}}</el-tag>
+                <span style="width: 600px;text-align: left">{{msg.title}}</span>
+                <el-tag>{{msg.createDate|formatDate}}</el-tag>
               </div>
             </template>
             <div
               style="display: flex;justify-content: flex-start;align-items: center;border-style: solid;border-width: 1px;border-color: #409eff;border-radius: 5px;padding: 4px 0px 4px 8px;box-sizing: border-box;height: 100%">
-              {{msg.msgContent.message}}
+              {{msg.message}}
             </div>
           </el-collapse-item>
         </el-collapse>
@@ -115,12 +115,11 @@
       initSysMsgs(){
         var _this = this;
         this.getRequest("/Msgcontent/all").then(resp=> {
-          _this.sysmsgs = resp.data;
+          _this.sysmsgs = resp.data.aaData;
           var isDot = false;
+          console.log(888,_this.sysmsgs)
           _this.sysmsgs.forEach(msg=> {
-            if (msg.state == 0) {
               isDot = true;
-            }
           })
           _this.$store.commit('toggleNFDot', isDot);
         })
@@ -137,12 +136,12 @@
       sendNFMsg(){
         this.dialogLoading = true;
         var _this = this;
-        this.postRequest("/chat/nf", {message: this.message, title: this.title}).then(resp=> {
+        this.postRequestEx("/Msgcontent/add", {message: this.message, title: this.title}).then(resp=> {
           _this.dialogLoading = false;
           if (resp && resp.status == 200) {
             var data = resp.data;
-            
-            if (data.status == 'success') {
+            console.log(99,data.status)
+            if (data.status == 0) {
               _this.$store.state.stomp.send("/ws/nf", {}, '');
               _this.initSysMsgs();
               _this.cancelSend();
